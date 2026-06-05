@@ -14,7 +14,7 @@ from google.genai import types
 
 # ----------------------------- Config -----------------------------
 CHAT_MODEL = "gemini-2.5-flash"
-EMBED_MODEL = "gemini-embedding-004"
+EMBED_MODEL = "gemini-embedding-001"
 TOP_K = 5
 CHUNK_CHARS = 900          # ~target chunk size
 CHUNK_OVERLAP = 150
