@@ -17,7 +17,7 @@ from google import genai
 from google.genai import types
 
 # ----------------------------- Config -----------------------------
-CHAT_MODEL = "gemini-2.5-flash"
+CHAT_MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"]  # primary, then fallback
 EMBED_MODEL = "gemini-embedding-001"
 TOP_K = 5
 CHUNK_CHARS = 900
@@ -149,9 +149,15 @@ def answer(client, query, history, retrieved):
         f"=== USER QUESTION ===\n{query}\n\n"
         f"Answer as Pranav's assistant, grounded only in the context above."
     )
-    resp = _with_retry(lambda: client.models.generate_content(
-        model=CHAT_MODEL, contents=prompt))
-    return resp.text
+    last = None
+    for model in CHAT_MODELS:
+        try:
+            resp = _with_retry(lambda m=model: client.models.generate_content(
+                model=m, contents=prompt))
+            return resp.text
+        except Exception as e:
+            last = e  # this model is busy/unavailable; try the next one
+    raise last
 
 
 def respond(client, user_input, chunks, meta, matrix):
@@ -174,12 +180,19 @@ def respond(client, user_input, chunks, meta, matrix):
 
 
 # ----------------------------- UI -----------------------------
-st.set_page_config(page_title="Ask about Pranav Dabke", page_icon="speech_balloon")
-st.title("Ask about Pranav Dabke")
-st.caption(
-    "AI assistant grounded on Pranav's resume and public GitHub repos - answers only "
-    "from his real materials, and says so when it doesn't know."
-)
+st.set_page_config(page_title="Ask about Pranav Dabke", page_icon="💬")
+
+# Header: title + caption on the left, booking button pinned to the right
+_hl, _hr = st.columns([4, 1])
+with _hl:
+    st.title("💬 Ask about Pranav Dabke")
+    st.caption(
+        "AI assistant grounded on Pranav's resume and public GitHub repos - answers "
+        "only from his real materials, and says so when it doesn't know."
+    )
+with _hr:
+    st.write("")
+    st.link_button("📅 Book a Call", CAL_LINK, use_container_width=True, type="primary")
 
 if not API_KEY:
     st.error("GEMINI_API_KEY not set. Add it to Streamlit secrets or your environment.")
@@ -192,9 +205,6 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "pending" not in st.session_state:
     st.session_state.pending = None
-
-# Booking - clean button that opens the Cal.com scheduler
-st.link_button("Book a 30-minute interview with Pranav", CAL_LINK, use_container_width=True)
 
 # Suggested starter questions (only before the conversation begins)
 if not st.session_state.messages:
