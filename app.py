@@ -14,12 +14,11 @@ from google.genai import types
 
 # ----------------------------- Config -----------------------------
 CHAT_MODEL = "gemini-2.5-flash"
-EMBED_MODEL = "gemini-embedding-001"
+EMBED_MODEL = "gemini-embedding-004"
 TOP_K = 5
 CHUNK_CHARS = 900          # ~target chunk size
 CHUNK_OVERLAP = 150
 CAL_LINK = "https://cal.com/pranav-dabke/interview"
-
 # API key: from Streamlit secrets (cloud) or env var (local).
 # st.secrets raises if no secrets.toml exists at all, so guard it.
 def _get_api_key():
