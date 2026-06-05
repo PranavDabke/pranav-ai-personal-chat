@@ -170,10 +170,8 @@ if "messages" not in st.session_state:
 if "pending" not in st.session_state:
     st.session_state.pending = None
 
-# In-chat booking - satisfies "book a call directly from chat"
-with st.expander("Book a 30-minute interview with Pranav (right here)"):
-    st.write("Pick any free slot below - it books directly on Pranav's calendar.")
-    components.iframe(CAL_LINK, height=620, scrolling=True)
+# Booking - clean button that opens the Cal.com scheduler
+st.link_button("📅 Book a 30-minute interview with Pranav", CAL_LINK, use_container_width=True)
 
 # Suggested starter questions (only before the conversation begins)
 if not st.session_state.messages:
