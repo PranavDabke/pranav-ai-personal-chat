@@ -49,7 +49,7 @@
 - Marathi – Conversational
 
 ## Availability / Scheduling
-To book an interview with Pranav, use his Cal.com link: https://cal.com/pranav-dabke/interview (30-minute interview slot). Availability is Monday to Friday, 9:00 AM to 5:00 PM IST (Asia/Kolkata).
+To book an interview with Pranav, use his Google Appointment Scheduling link: https://calendar.app.google/6teCw8vXkLaw8G1v8 (30-minute interview slot, with an automatic Google Meet link). Availability is Monday to Friday, 9:00 AM to 5:00 PM IST (Asia/Kolkata).
 
 ## Fit for AI Engineer Intern role
 - Hands-on Vision-Language Model deployment experience (Qwen-3, Gemini 2.5 Flash).
